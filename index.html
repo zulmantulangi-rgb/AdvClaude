@@ -1,0 +1,208 @@
+<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Advertisement Text - MPI</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--b:#1e5bd8;--y:#ffc933;--o:#ff7a1a;--bg:#eef4ff;--t:#1b2540}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Poppins,system-ui,sans-serif;color:var(--t);background:var(--bg)}
+#app{max-width:980px;margin:auto;padding:14px}
+.card{background:#fff;border-radius:20px;padding:20px;box-shadow:0 6px 20px #1e5bd822;margin:10px 0;animation:in .4s}
+@keyframes in{from{opacity:0;transform:translateY(12px)}}
+h1,h2,h3{margin:.3em 0}h1{font-size:clamp(1.6rem,6vw,2.6rem);color:var(--b)}
+.btn{border:0;border-radius:14px;padding:12px 20px;font:600 1rem Poppins;cursor:pointer;background:var(--b);color:#fff;margin:4px;transition:.2s}
+.btn:hover{transform:scale(1.04)}.btn.o{background:var(--o)}.btn.y{background:var(--y);color:#222}.btn:disabled{opacity:.4;cursor:not-allowed}
+.hero{background:linear-gradient(135deg,var(--b),#4a8cff);color:#fff;text-align:center;padding:24px 16px}
+.hero h1{color:#fff}.badge{display:inline-block;background:var(--y);color:#222;border-radius:99px;padding:4px 14px;font-weight:600;font-size:.85rem;margin:3px}
+.mo{display:none;position:fixed;inset:0;background:#0008;backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:14px;z-index:9}.mo.on{display:flex}
+.mo .card{max-width:520px;max-height:90vh;overflow:auto;text-align:center}
+.av{width:120px;height:120px;border-radius:50%;border:5px solid var(--y);object-fit:cover}
+.avf{width:120px;height:120px;border-radius:50%;background:var(--o);color:#fff;font-size:2.5rem;display:flex;align-items:center;justify-content:center;margin:auto;border:5px solid var(--y)}
+.ar{font-family:Amiri,serif;font-size:1.7rem;direction:rtl;line-height:2;background:#fff8dc;border-radius:12px;padding:8px}
+.box{border-left:5px solid var(--o);background:#fff4ea;padding:8px 12px;border-radius:8px;margin:8px 0;font-size:.95rem}
+.box.k{border-color:var(--b);background:#eaf1ff}.box.q{border-color:#2aa86b;background:#eafaf1}
+.opt{display:block;width:100%;text-align:left;margin:6px 0;padding:11px;border-radius:12px;border:2px solid #cfd9f5;background:#fff;font:1rem Poppins;cursor:pointer}
+.opt.sel{background:#dbe7ff;border-color:var(--b)}.opt.ok{background:#c9f5dc;border-color:#2aa86b}.opt.no{background:#ffd9d9;border-color:#e44}
+.stim{background:#f5f8ff;border:1px dashed var(--b);border-radius:12px;padding:10px;font-size:.92rem;margin:8px 0}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.mc{text-align:center;cursor:pointer;padding:22px}.mc.lock{filter:grayscale(1);opacity:.7}.mc .ic{font-size:3rem}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px}.zone{border:2px dashed var(--o);border-radius:12px;padding:8px;min-height:60px}
+input,select{width:100%;padding:12px;border-radius:12px;border:2px solid #cfd9f5;font:1rem Poppins;margin:4px 0}.err{color:#d22;font-size:.85rem;min-height:1.2em}
+.bar{height:10px;background:#dde6fb;border-radius:9px}.bar i{display:block;height:100%;background:var(--o);border-radius:9px}
+.fb{font-weight:600;margin-top:6px}.fl{animation:fl 2s infinite}@keyframes fl{50%{transform:translateY(-8px) rotate(-3deg)}}
+.spl{text-align:center;padding:25vh 0}
+@media(max-width:560px){.cols{grid-template-columns:1fr}}
+@media print{body *{visibility:hidden}#rep,#rep *{visibility:visible}#rep{position:absolute;left:0;top:0;width:100%}.np{display:none!important}}
+.mq{overflow:hidden;white-space:nowrap;background:var(--o);color:#fff;border-radius:12px;font-weight:800;padding:8px 0;margin:6px 0}.mq span{display:inline-block;padding-left:100%;animation:mq 12s linear infinite}@keyframes mq{to{transform:translateX(-100%)}}
+table.t{width:100%;border-collapse:collapse;font-size:.9rem}table.t td,table.t th{border:1px solid #888;padding:6px;text-align:center}table.t th{background:#eaf1ff}
+.wm{position:absolute;top:50%;left:50%;width:60%;transform:translate(-50%,-50%);opacity:.1;pointer-events:none}.kop{display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap}.kop img{height:70px}
+.sync{margin:12px 4px;font-size:.92rem;font-weight:600}
+</style></head><body><div id="app"></div><div class="mo" id="mo"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+// =====================================================================
+// KONFIGURASI: tempel URL Web App Google Apps Script (berakhiran /exec) di bawah ini
+// =====================================================================
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwO-ZunTQs1MI_gRd0s593-cYSWWFA95jjhtW_UwsOYUjKQ2JpeFFg6HTpK1iqO8X8/exec";
+
+const $=s=>document.querySelector(s),A=$("#app"),DEV={n:"Zulkifli Mantulangi, S.S., Gr.",s:"MTs. Negeri 1 Boalemo",e:"zulmantulangi@gmail.com",p:"https://iili.io/o20nmss.jpg"};
+const TP="Memahami dan merespons Advertisement Text sederhana (tertulis/multimodal) dengan mengidentifikasi tujuan komunikatif, informasi tersurat/tersirat, dan unsur persuasif dalam konteks kehidupan sehari-hari.";
+const AY1={ar:"يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَقُولُوا قَوْلًا سَدِيدًا",r:"QS. Al-Ahzab/33: 70",t:"Wahai orang-orang yang beriman! Bertakwalah kamu kepada Allah dan ucapkanlah perkataan yang benar.",k:"Iklan yang baik memakai kata-kata yang benar dan jujur."};
+const AY2={ar:"وَأَوْفُوا الْكَيْلَ إِذَا كِلْتُمْ وَزِنُوا بِالْقِسْطَاسِ الْمُسْتَقِيمِ ۚ ذَٰلِكَ خَيْرٌ وَأَحْسَنُ تَأْوِيلًا",r:"QS. Al-Isra'/17: 35",t:"Dan sempurnakanlah takaran apabila kamu menakar, dan timbanglah dengan neraca yang benar. Itulah yang lebih utama (bagimu) dan lebih baik akibatnya.",k:"Penjual harus jujur tentang harga, takaran, dan kualitas yang diiklankan."};
+const S={n:"",k:"",L:Array(6).fill(0),play:null,lat:null,pending:null};
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const sh=h=>{A.innerHTML=h;scrollTo(0,0);setTimeout(()=>snd("next"),90)},mod=h=>{$("#mo").innerHTML='<div class="card">'+h+'</div>';$("#mo").classList.add("on")},cm=()=>$("#mo").classList.remove("on");
+const ayh=a=>`<div class="ar">${a.ar}</div><p><b>${a.r}</b><br><i>"${a.t}"</i> (Terjemahan Kemenag RI)</p><div class="box k">Korelasi: ${a.k}</div>`;
+const av=()=>`<img class="av" referrerpolicy="no-referrer" src="${DEV.p}" alt="Foto Pengembang" onerror="this.outerHTML='<div class=avf>ZM</div>'">`;
+// ---------- DATA BELAJAR
+const M=[
+{t:"1. Apa itu Advertisement Text?",u:"Advertisement (iklan) adalah teks yang dibuat untuk <b>menginformasikan</b> dan <b>membujuk</b> (persuade) orang agar membeli produk, memakai jasa, atau ikut kegiatan. Iklan bisa berupa tulisan, gambar, atau gabungan keduanya (multimodal).",l:"Contoh di Gorontalo: poster <i>Binte Biluhuta</i> (sup jagung khas), spanduk festival di Danau Limboto, dan iklan ikan segar dari pesisir Teluk Tomini.",c:"Cinta pada daerah: mempromosikan produk lokal berarti mencintai tanah air dan membantu sesama.",a:AY1,q:"What is the main purpose of an advertisement?",o:["To tell a long story","To inform and persuade people","To give homework"],r:1},
+{t:"2. Struktur & Unsur Iklan",u:"Iklan umumnya memuat: <b>headline</b> (judul menarik), <b>body text</b> (penjelasan produk), <b>slogan</b>, <b>harga/penawaran</b>, dan <b>contact</b> (alamat, telepon). Gambar mendukung pesan.",l:"Iklan sambal Iloni: headline 'Hot & Fresh!', body: dibuat dari cabai petani Gorontalo, contact: nomor penjual di Limboto.",c:"Cinta ilmu: teliti membaca setiap bagian iklan sebelum memutuskan.",a:AY1,q:"'Call 0812-xxxx now!' is the ___ part of an ad.",o:["contact","slogan","headline"],r:0},
+{t:"3. Ciri Kebahasaan Iklan",u:"Iklan memakai <b>kalimat perintah</b> (Buy now! Try it!), <b>kata sifat</b> (fresh, delicious, cheap), <b>superlatif</b> (the best, the cheapest), dan kalimat pendek yang mudah diingat.",l:"'Taste the freshest tuna from Tomini Bay!' memakai superlatif 'freshest' dan kalimat perintah 'Taste'.",c:"Gunakan bahasa yang santun dan tidak merendahkan produk orang lain.",a:AY1,q:"Which word is a superlative?",o:["cheap","cheapest","cheaply"],r:1},
+{t:"4. Informasi Tersurat & Tersirat",u:"<b>Tersurat</b> = ditulis jelas (harga, tempat). <b>Tersirat</b> = disimpulkan, misalnya 'Only 20 pieces left!' menyiratkan kamu harus cepat membeli.",l:"Iklan 'Karawo embroidery, handmade by Gorontalo artisans' → tersurat: buatan tangan; tersirat: produk berkualitas dan unik.",c:"Cinta kebenaran: pembaca yang bijak mampu memahami makna di balik kata.",a:AY2,q:"'Only 20 left!' implies that...",o:["the product is free","you should buy quickly","the shop is closed"],r:1},
+{t:"5. Unsur Persuasif",u:"Teknik membujuk: <b>diskon</b> (Buy 1 Get 1), <b>testimoni</b> ('My family loves it!'), <b>urgensi</b> (Today only!), dan <b>ajakan massal</b> (Everyone uses it).",l:"Penjual jagung di dataran agraris Gorontalo menulis 'Buy 2 kg, get 1 free this Saturday only!' (diskon + urgensi).",c:"Moderasi: membujuk boleh, asal tidak berlebihan, memaksa, atau menipu.",a:AY2,q:"'Today only!' is an example of...",o:["testimonial","urgency","discount"],r:1},
+{t:"6. Menjadi Konsumen Cerdas & Jujur",u:"Periksa apakah iklan jujur: apakah ada bukti, harga jelas, tidak berlebihan? Buatlah iklan yang benar dan bermanfaat bagi orang lain.",l:"Iklan wisata Danau Limboto boleh menarik, tetapi harus menjaga kebersihan danau dan tidak menjanjikan hal yang tidak ada.",c:"Kasih sayang kepada makhluk Allah: promosi tidak boleh merusak lingkungan, danau, dan laut.",a:AY2,q:"A good and honest ad should be...",o:["true and clear","full of exaggeration","hidden"],r:0}];
+// ---------- DATA BERMAIN
+const P=[
+{t:"match",s:"Pak Hamzah menjual ikan di pesisir Teluk Tomini. Ia menempelkan poster: 'Fresh Tuna! Rp30.000 per kg. Call 0813-xxxx.' Poster itu memiliki beberapa bagian yang membantu pembeli memahami penawaran.",q:"Jodohkan bagian iklan dengan contohnya.",p:[["Headline","Fresh Tuna!"],["Price","Rp30.000 per kg"],["Contact","Call 0813-xxxx"]]},
+{t:"match",s:"Di Festival Danau Limboto, panitia memasang spanduk: 'Join us! Free boat ride for children. Keep our lake clean!' Spanduk itu mengajak orang datang sambil merawat lingkungan.",q:"Jodohkan kalimat dengan fungsinya.",p:[["Join us!","Ajakan (imperative)"],["Free boat ride","Penawaran menarik"],["Keep our lake clean!","Pesan peduli lingkungan"]]},
+{t:"order",s:"Bu Rahma ingin membuat iklan binte biluhuta. Ia menyusun poster dari atas ke bawah: judul menarik, penjelasan bahan, slogan, lalu alamat penjual.",q:"Urutkan bagian iklan dari atas ke bawah.",i:["Headline: Taste Binte Biluhuta!","Body: made from fresh corn and shrimp","Slogan: Delicious Gorontalo in a bowl","Contact: Jl. Limboto No. 5"]},
+{t:"order",s:"Ahmad belajar membaca iklan dengan benar: pertama melihat judul, lalu membaca isi, memeriksa harga, kemudian menyimpulkan apakah iklan jujur.",q:"Urutkan langkah membaca iklan.",i:["Look at the headline","Read the body text","Check the price","Decide if it is honest"]},
+{t:"cls",s:"Siti membandingkan kalimat iklan jagung: 'Buy now!', 'The sweetest corn in Gorontalo', 'Corn is grown on farmland', 'Try our corn today!'. Ia mengelompokkan kalimat perintah dan kalimat bukan perintah.",q:"Kelompokkan kalimat.",z:["Perintah","Bukan perintah"],i:[["Buy now!",0],["Try our corn today!",0],["The sweetest corn in Gorontalo",1],["Corn is grown on farmland",1]]},
+{t:"cls",s:"Rafi membaca beberapa teknik dalam iklan di toko oleh-oleh Gorontalo: 'Buy 1 Get 1', 'My mom loves it!', 'Only today!', 'Half price'. Ia ingin tahu mana yang diskon dan mana yang bukan.",q:"Kelompokkan teknik.",z:["Diskon","Teknik lain"],i:[["Buy 1 Get 1",0],["Half price",0],["My mom loves it!",1],["Only today!",1]]},
+{t:"mc",s:"Iklan: 'Karawo Scarf, handmade by Gorontalo artisans. Price: Rp120.000 (Normal Rp150.000). Discount 20%! Order before Friday.' Seorang siswa menghitung potongan harga dan batas waktu pembelian.",q:"Berapa rupiah hemat yang didapat pembeli?",o:["Rp20.000","Rp30.000","Rp120.000"],r:1},
+{t:"mc",s:"Iklan penginapan di tepi Danau Limboto: 'Comfortable rooms, only Rp200.000 per night. Stay 3 nights, pay for 2!' Keluarga Yusuf ingin menginap 3 malam dan menghitung biayanya.",q:"Berapa yang harus dibayar keluarga Yusuf?",o:["Rp600.000","Rp400.000","Rp200.000"],r:1},
+{t:"cmc",s:"Iklan: 'The best corn flour from Gorontalo farmers! 100% natural. Buy now and get a free recipe book!' Siswa diminta menemukan unsur persuasif yang terdapat pada iklan tersebut.",q:"Pilih SEMUA unsur persuasif yang benar.",o:["Superlatif 'The best'","Hadiah gratis","Pernyataan harga diskon 50%","Kalimat perintah 'Buy now'"],r:[0,1,3]},
+{t:"cmc",s:"Al-Isra' ayat 35 mengajarkan menyempurnakan takaran. Seorang pedagang ikan di Teluk Tomini menulis iklan 'Honest scale, fair price'. Siswa menilai sikap pedagang yang sesuai dengan ayat tersebut.",q:"Pilih SEMUA sikap yang sesuai ayat.",o:["Menimbang dengan benar","Menjelaskan harga dengan jelas","Mengurangi timbangan diam-diam","Jujur tentang kualitas"],r:[0,1,3]}];
+// ---------- DATA BERLATIH
+const T=[
+{l:1,s:"Iklan di Pasar Limboto: 'Fresh Mujair from Lake Limboto! Rp25.000 per kg. Call 0812-xxxx. Open every morning.'",q:"What is the purpose of this ad?",o:["To sell fresh fish","To teach fishing","To close the market"],r:0},
+{l:1,s:"Poster: 'Binte Biluhuta, a delicious corn soup with shrimp and lime. Taste Gorontalo today!'",q:"Which word is an adjective?",o:["Taste","delicious","today"],r:1},
+{l:1,s:"Spanduk wisata: 'Visit Tomini Bay! Clean beach, friendly people, beautiful sunset.' Ajakan itu ditujukan untuk wisatawan.",q:"Which sentence is an imperative?",o:["Visit Tomini Bay!","Clean beach","Beautiful sunset"],r:0},
+{l:2,s:"Iklan: 'Karawo Bag, Rp180.000. Discount 25% this week!' Siti ingin membelinya.",q:"How much does Siti pay after the discount?",o:["Rp135.000","Rp155.000","Rp45.000"],r:0},
+{l:2,s:"Iklan: 'Sweet corn from Gorontalo farmers. Buy 3 kg, get 1 kg free!' Pak Ali membeli 6 kg jagung.",q:"How many kg does Pak Ali get in total?",o:["7 kg","8 kg","9 kg"],r:1},
+{l:2,s:"Iklan: 'Only 10 seats left for the Limboto Lake tour! Register today!' Dina membacanya sambil berpikir.",q:"What is the implied message?",o:["The tour is boring","Register quickly","The lake is closed"],r:1},
+{l:2,s:"Iklan: 'My family always buys this tuna. It is very fresh!' Iklan ini memakai suara pelanggan.",q:"Which persuasive technique is used?",o:["Testimonial","Discount","Warning"],r:0},
+{l:3,s:"Iklan: 'The cheapest and the best fish in Gorontalo! 100% safe!' Tidak ada bukti, izin, atau harga yang jelas. Rani curiga iklan itu berlebihan.",q:"What should Rani do first?",o:["Believe it immediately","Check the evidence and price","Share it to friends"],r:1},
+{l:3,s:"Iklan A: 'Jet-ski tour on Lake Limboto, the fastest fun!' Pengunjung membuang sampah ke danau. Iklan B: 'Clean boat tour. Keep the lake alive!' Menurut Al-Isra' 35 dan nilai kasih sayang pada alam, dua iklan dibandingkan.",q:"Which ad is better in Kurikulum Berbasis Cinta?",o:["Ad A, because it is fast","Ad B, because it cares for nature","Both are the same"],r:1},
+{l:3,s:"Seorang pedagang jagung menulis: 'Buy 4 kg Rp10.000/kg get 1 free!' dan pesaing menulis 'Buy 5 kg, Rp9.000/kg.' Pembeli ingin 5 kg.",q:"Which is cheaper for 5 kg?",o:["First: Rp40.000","Second: Rp45.000","Both Rp45.000"],r:0}];
+// ---------- ALUR
+function splash(){sh(`<div class="spl"><div style="font-size:5rem" class="fl">📣</div><h1>Advertisement Text</h1><p>Memuat media pembelajaran...</p></div>`);setTimeout(cover,1800)}
+function cover(){sh(`<div class="card hero"><span class="badge">Bahasa Inggris</span><span class="badge">Kelas VIII / Fase D</span><h1>Advertisement Text</h1>
+<svg viewBox="0 0 300 160" width="min(320px,80%)"><g class="fl"><path d="M60 70 L170 25 V135 L60 90Z" fill="#ffc933"/><rect x="30" y="65" width="40" height="30" rx="6" fill="#ff7a1a"/><rect x="75" y="95" width="18" height="40" rx="5" fill="#ff7a1a"/></g><g fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"><path d="M195 55q20 25 0 50"><animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite"/></path><path d="M220 40q35 40 0 80"><animate attributeName="opacity" values="0;1;0" dur="1.5s" begin=".3s" repeatCount="indefinite"/></path></g><text x="235" y="150" font-size="26">🛍️</text></svg>
+<div><button class="btn y" onclick="info()">Informasi Pengembang</button><button class="btn y" onclick="tuj()">Tujuan Pembelajaran</button><button class="btn o" onclick="formSiswa()">MULAI ▶</button></div></div>`)}
+function info(){mod(`${av()}<h2>${DEV.n}</h2><p>${DEV.s}<br>${DEV.e}<br>NIP. 199007072019031014<br>Tilamuta</p><button class="btn" onclick="cm()">Kembali ke Cover</button>`)}
+function tuj(){mod(`<h2>🎯 Tujuan Pembelajaran</h2><p>${TP}</p>${ayh(AY1)}<div class="box">Kurikulum Berbasis Cinta: cintai Allah, Rasul, ilmu, sesama, alam, dan tanah air lewat komunikasi yang jujur.</div><button class="btn" onclick="cm()">Kembali ke Cover</button>`)}
+function formSiswa(){sh(`<div class="card"><h2>👤 Identitas Siswa</h2><input id="fn" placeholder="Nama lengkap"><div class="err" id="e1"></div><select id="fk"><option value="">-- Pilih Kelas --</option><option>VIII-A</option><option>VIII-B</option><option>VIII-C</option><option>VIII-D</option><option>VIII-E</option><option>VIII-F</option><option>VIII-G</option></select><div class="err" id="e2"></div><button class="btn o" onclick="sub()">Lanjut ▶</button></div>`)}
+function sub(){const n=$("#fn").value.trim(),k=$("#fk").value.trim();$("#e1").textContent=n?"":"Nama wajib diisi.";$("#e2").textContent=k?"":"Kelas wajib diisi.";if(n&&k){S.n=n;S.k=k;guide(0)}}
+const G=[["👋","Selamat Datang, "+"NAMA"+"!","Kamu akan belajar Advertisement Text: iklan yang menginformasikan dan membujuk."],["🔓","Menu Bertahap","Belajar → Bermain → Berlatih. Menu berikutnya terbuka setelah tahap sebelumnya selesai."],["👆","Cara Berinteraksi","Ketuk (tap) atau klik pilihan, lalu ketuk tujuannya. Berlaku di HP dan laptop."]];
+function guide(i){const g=G[i];sh(`<div class="card" style="text-align:center"><div style="font-size:4rem">${g[0]}</div><h2>${g[1].replace("NAMA",S.n)}</h2><p>${g[2]}</p><p>Slide ${i+1}/3</p>${i?`<button class="btn" onclick="guide(${i-1})">◀ Kembali</button>`:""}${i<2?`<button class="btn o" onclick="guide(${i+1})">Selanjutnya ▶</button>`:`<button class="btn o" onclick="menu()">Masuk ke Menu Utama</button>`}</div>`)}
+const ld=()=>S.L.every(x=>x);
+function menu(){const pd=!!S.play;sh(`<div class="card hero"><h2>Halo, ${S.n} (${S.k})</h2></div><div class="menu">
+<div class="card mc" onclick="learn(0)"><div class="ic">📖</div><h3>BELAJAR 🔓</h3><p>6 slide materi</p></div>
+<div class="card mc ${ld()?"":"lock"}" onclick="${ld()?"play(0)":"lk('Selesaikan menu BELAJAR dulu.')"}"><div class="ic">🎮</div><h3>BERMAIN ${ld()?"🔓":"🔒"}</h3><p>10 tantangan</p></div>
+<div class="card mc ${pd?"":"lock"}" onclick="${pd?"lat(0)":"lk('Selesaikan menu BERMAIN dulu.')"}"><div class="ic">📝</div><h3>BERLATIH ${pd?"🔓":"🔒"}</h3><p>10 soal asesmen</p></div></div>`)}
+const lk=m=>mod(`<div style="font-size:3rem">🔒</div><h3>Menu Terkunci</h3><p>${m} Semangat, kamu pasti bisa!</p><button class="btn" onclick="cm()">Mengerti</button>`);
+const opts=(o,fn)=>o.map((x,i)=>`<button class="opt" onclick="${fn}(${i},this)">${"ABC"[i]}. ${x}</button>`).join("");
+function learn(i){const m=M[i];sh(`${mq("Welcome to English Class!!")}<div class="card"><div class="bar"><i style="width:${(i+1)/6*100}%"></i></div><h2>${m.t}</h2><p>${m.u}</p><div class="box">📍 Konteks Gorontalo: ${m.l}</div><div class="box k">💙 KBC: ${m.c}</div>${ayh(m.a)}
+<div class="box q"><b>Tantangan:</b> ${m.q}${opts(m.o,"lq")}<div class="fb" id="fb"></div></div>
+<button class="btn" ${i?"":"disabled"} onclick="learn(${i-1})">◀ Kembali</button><button class="btn o" id="nx" ${S.L[i]?"":"disabled"} onclick="${i<5?`learn(${i+1})`:"fin()"}">${i<5?"Selanjutnya ▶":"Selesai ✔"}</button></div>`);window.ci=i}
+function lq(k,b){const i=ci,ok=k==M[i].r;b.classList.add(ok?"ok":"no");$("#fb").textContent=ok?"✅ Benar! Hebat!":"❌ Belum tepat, coba lagi.";if(ok){S.L[i]=1;$("#nx").disabled=false}}
+function fin(){ld()&&mod(`<div style="font-size:3rem">🎉</div><h3>Menu BERMAIN terbuka!</h3><button class="btn" onclick="cm();menu()">Ke Menu Utama</button>`)}
+// ---------- BERMAIN
+let PS={sc:0,ok:0,i:0},cur,PL=[];
+function play(i){if(!i){PS={sc:0,ok:0,i:0,m:0};PL=[]}PS.i=i;const p=P[i];cur={mis:0,sel:null,n:0,done:0,w:[],fin:0};
+let body="";if(p.t=="match"){cur.R=shuf(p.p.map(x=>x[1]));body=`<div class="cols"><div>${p.p.map((x,j)=>`<button class="opt" id="l${j}" onclick="mt(${j})">${x[0]}</button>`).join("")}</div><div>${cur.R.map((x,j)=>`<button class="opt" id="r${j}" onclick="mr(${j})">${x}</button>`).join("")}</div></div>`}
+else if(p.t=="order"){cur.R=shuf(p.i);body=`<p>Ketuk berurutan dari yang PERTAMA:</p>${cur.R.map((x,j)=>`<button class="opt" onclick="od(${j},this)">${x}</button>`).join("")}`}
+else if(p.t=="cls"){cur.R=shuf(p.i);body=`<p>Ketuk item, lalu ketuk kotak tujuannya:</p><div id="pool">${cur.R.map((x,j)=>`<button class="opt" id="c${j}" onclick="cp(${j})">${x[0]}</button>`).join("")}</div><div class="cols">${p.z.map((z,j)=>`<div class="zone" onclick="cz(${j})"><b>${z}</b><div id="z${j}"></div></div>`).join("")}</div>`}
+else if(p.t=="mc")body=opts(p.o,"pm");else body=p.o.map((x,j)=>`<label class="opt"><input type="checkbox" value="${j}" style="width:auto"> ${x}</label>`).join("")+`<button class="btn" onclick="pc()">Periksa</button>`;
+sh(`${mq("Let’s have some fun!!!")}<div class="card"><div class="bar"><i style="width:${(i+1)*10}%"></i></div><h3>Tantangan ${i+1}/10</h3><div class="stim">${p.s}</div><b>${p.q}</b>${body}<div class="fb" id="fb"></div><div id="nxt"></div></div>`)}
+function pend(det){if(cur.fin)return;cur.fin=1;const ok=cur.mis==0;PL[PS.i]=(det||(ok?"Sempurna, tanpa kesalahan":cur.mis+" kesalahan: "+cur.w.join("; ")))+(ok?" ✔":" ✘")+" ("+(ok?10:5)+" poin)";PS.sc+=ok?10:5;PS.ok+=ok;$("#fb").textContent=ok?"🌟 Sempurna! +10":"👍 Selesai dengan "+cur.mis+" kesalahan, +5";$("#nxt").innerHTML=`<button class="btn o" onclick="${PS.i<9?`play(${PS.i+1})`:"pfin()"}">${PS.i<9?"Lanjut ▶":"Lihat Rekap"}</button>`}
+function mt(j){cur.sel=j;document.querySelectorAll("[id^=l]").forEach(b=>b.classList.remove("sel"));$("#l"+j).classList.add("sel")}
+function mr(j){if(cur.sel==null)return;const p=P[PS.i];if(p.p[cur.sel][1]==cur.R[j]){$("#l"+cur.sel).classList.add("ok");$("#l"+cur.sel).disabled=1;$("#r"+j).classList.add("ok");$("#r"+j).disabled=1;cur.sel=null;if(++cur.done==p.p.length)pend()}else{cur.mis++;cur.w.push(p.p[cur.sel][0]+" ≠ "+cur.R[j]);$("#fb").textContent="❌ Belum cocok"}}
+function od(j,b){const p=P[PS.i];if(b.classList.contains("ok"))return;if(cur.R[j]==p.i[cur.n]){b.classList.add("ok");if(++cur.n==p.i.length)pend()}else{cur.mis++;cur.w.push("urutan ke-"+(cur.n+1)+" dijawab: "+cur.R[j]);b.classList.add("no");setTimeout(()=>b.classList.remove("no"),400)}}
+function cp(j){cur.sel=j;document.querySelectorAll("[id^=c]").forEach(b=>b.classList.remove("sel"));$("#c"+j).classList.add("sel")}
+function cz(z){if(cur.sel==null)return;const it=cur.R[cur.sel];if(it[1]==z){const b=$("#c"+cur.sel);b.classList.add("ok");b.disabled=1;b.classList.remove("sel");$("#z"+z).appendChild(b);cur.sel=null;if(++cur.done==cur.R.length)pend()}else{cur.mis++;cur.w.push(it[0]+" → "+P[PS.i].z[z]);$("#fb").textContent="❌ Bukan di kotak itu"}}
+function pm(k,b){const ok=k==P[PS.i].r;document.querySelectorAll(".opt").forEach(x=>x.disabled=1);b.classList.add(ok?"ok":"no");cur.mis=ok?0:1;pend("ABCD"[k]+". "+P[PS.i].o[k])}
+function pc(){if(cur.fin)return;const sl=[...document.querySelectorAll("input:checked")].map(x=>+x.value).sort(),v=sl.join(),ok=v==P[PS.i].r.join();cur.mis=ok?0:1;document.querySelectorAll(".opt").forEach(x=>x.style.background=ok?"#c9f5dc":"#ffd9d9");pend("Dipilih: "+(sl.length?sl.map(j=>"ABCD"[j]+". "+P[PS.i].o[j]).join(" | "):"(tidak ada)"))}
+function pfin(){S.play={sc:PS.sc,ac:PS.ok*10,log:PL.slice()};mod(`<h3>🏆 Rekap Bermain</h3><p>Skor: <b>${PS.sc}/100</b><br>Akurasi sempurna: <b>${PS.ok*10}%</b></p><p>Menu BERLATIH terbuka!</p><button class="btn" onclick="cm();menu()">Ke Menu Utama</button>`)}
+// ---------- BERLATIH
+let TA=[];
+function lat(i){if(!i)TA=[];const t=T[i],lv=["","Level 1 - Dasar","Level 2 - Sedang","Level 3 - HOTS"][t.l];sh(`${mq("Happy exercising, Best of Luck")}<div class="card"><div class="bar"><i style="width:${(i+1)*10}%"></i></div><span class="badge">${lv} · ${[0,8,10,12][t.l]} poin</span><h3>Soal ${i+1}/10</h3><div class="stim">${t.s}</div><b>${t.q}</b>${opts(t.o,"la")}</div>`);window.ti=i}
+function la(k){TA[ti]=k;ti<9?lat(ti+1):rep()}
+function rep(){let sc=0,lv={1:[0,0],2:[0,0],3:[0,0]};T.forEach((t,i)=>{const w=[0,8,10,12][t.l],ok=TA[i]==t.r;lv[t.l][1]++;if(ok){sc+=w;lv[t.l][0]++}});S.lat={sc,lv};
+const pr=sc>=90?"Sangat Baik":sc>=75?"Baik":sc>=60?"Cukup":"Perlu Bimbingan",d=new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});
+sh(`<div class="card" id="rep" style="position:relative;overflow:hidden"><img class="wm" src="https://iili.io/o20rnOg.md.jpg" alt=""><div style="text-align:center;border-bottom:3px solid var(--o)"><h2>LAPORAN HASIL BELAJAR</h2><b>MPI Advertisement Text · Bahasa Inggris Kelas VIII</b><p>Pengembang: ${DEV.n} - ${DEV.s}<br>NIP. 199007072019031014 · ${DEV.e}</p></div>
+<h3>Data Siswa</h3><p>Nama: <b>${S.n}</b><br>Kelas: <b>${S.k}</b><br>Tempat, Tanggal: <b>Tilamuta, ${d}</b></p>
+<h3>Performa Bermain</h3><p>Skor: <b>${S.play.sc}/100</b> · Akurasi sempurna: <b>${S.play.ac}%</b></p>
+<h3>Performa Berlatih</h3><p>Nilai Akhir: <b style="font-size:1.6rem;color:var(--o)">${sc}</b> · Predikat: <b>${pr}</b></p>
+<table class="t"><tr><th>Level / Sesi</th><th>Jumlah Soal</th><th>Benar</th><th>Salah</th><th>Bobot/Soal</th><th>Poin</th></tr>${[[1,"Level 1 - Dasar",8],[2,"Level 2 - Aplikasi",10],[3,"Level 3 - HOTS",12]].map(([k,n,w])=>`<tr><td>${n}</td><td>${lv[k][1]}</td><td>${lv[k][0]}</td><td>${lv[k][1]-lv[k][0]}</td><td>${w}</td><td>${lv[k][0]*w} / ${lv[k][1]*w}</td></tr>`).join("")}<tr><th>Total Keseluruhan</th><th>10</th><th>${lv[1][0]+lv[2][0]+lv[3][0]}</th><th>${10-lv[1][0]-lv[2][0]-lv[3][0]}</th><th>-</th><th>${sc} / 100</th></tr></table>
+<p style="font-size:.9rem"><b>Penjelasan Nilai Akhir:</b> Dari <b>10 soal</b>, ${S.n} menjawab benar <b>${lv[1][0]+lv[2][0]+lv[3][0]} soal</b> dan salah <b>${10-lv[1][0]-lv[2][0]-lv[3][0]} soal</b>. Level 1: ${lv[1][0]} benar dan ${lv[1][1]-lv[1][0]} salah dari ${lv[1][1]} soal. Level 2: ${lv[2][0]} benar dan ${lv[2][1]-lv[2][0]} salah dari ${lv[2][1]} soal. Level 3: ${lv[3][0]} benar dan ${lv[3][1]-lv[3][0]} salah dari ${lv[3][1]} soal. Nilai akhir adalah jumlah poin tiap soal yang benar, yaitu ${lv[1][0]*8} + ${lv[2][0]*10} + ${lv[3][0]*12} = <b>${sc}</b>.</p>
+<div class="box k">Catatan KBC: Teruslah menggunakan bahasa yang jujur, santun, dan mencintai sesama, ilmu, alam, serta tanah air Gorontalo.</div>
+<div class="box">Rekomendasi Guru: ${sc>=75?"Pertahankan dan bantu teman membuat iklan produk lokal yang jujur.":"Ulangi menu BELAJAR, fokus pada unsur persuasif dan informasi tersirat."}</div><div style="text-align:right;margin-top:16px">Tilamuta, ${d}<br>Pengembang / Guru Mata Pelajaran<br><br><br><b><u>${DEV.n}</u></b><br>NIP. 199007072019031014</div></div>
+<div class="np" style="text-align:center"><button class="btn o" onclick="pdf()">Unduh / Cetak Laporan PDF</button><button class="btn" onclick="menu()">Menu Utama</button><div class="sync" id="sync"></div></div>`);kirimHasil(sc,pr)}
+function pdf(){if(window.html2pdf)html2pdf().from($("#rep")).set({margin:10,filename:"Laporan-"+S.n+".pdf",html2canvas:{useCORS:true,scale:2}}).save().catch(()=>print());else print()}
+const mq=t=>`<div class="mq"><span>${t} &nbsp;•&nbsp; ${t} &nbsp;•&nbsp; ${t}</span></div>`;
+let ctx,lastR=0;
+function tone(f,d,t0=0,ty="sine",v=.15){try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();ctx.state=="suspended"&&ctx.resume();const o=ctx.createOscillator(),g=ctx.createGain(),t=ctx.currentTime+t0;o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+d)}catch(e){}}
+function snd(k){if(k=="click")tone(700,.06);else if(k=="next"){tone(500,.1,.05);tone(800,.12,.15)}else if(k=="ok"){[660,880,1100].forEach((f,i)=>tone(f,.15,i*.09))}else{tone(220,.3,0,"sawtooth",.12);tone(160,.3,.12,"sawtooth",.12)}}
+function res(k){const n=Date.now();if(n-lastR>250){lastR=n;snd(k)}}
+document.addEventListener("click",e=>{if(e.target.closest("button,.opt,.mc,.zone"))snd("click")});
+new MutationObserver(ms=>ms.forEach(m=>{const t=m.target;if(m.type=="attributes"){const o=m.oldValue||"";if(t.classList.contains("ok")&&o.indexOf("ok")<0)res("ok");else if(t.classList.contains("no")&&o.indexOf("no")<0)res("no")}else{const el=t.id=="fb"?t:t.parentElement;if(el&&el.id=="fb"){const x=el.textContent;if(x.includes("❌")||x.includes("kesalahan"))res("no");else if(x)res("ok")}}})).observe(A,{subtree:true,childList:true,attributes:true,attributeFilter:["class"],attributeOldValue:true});
+(()=>{const f='<path d="M0 0L90 55M90 0L0 55" stroke="#fff" stroke-width="10"/><path d="M0 0L90 55M90 0L0 55" stroke="#c8102e" stroke-width="4"/><path d="M45 0V55M0 27.5H90" stroke="#fff" stroke-width="16"/><path d="M45 0V55M0 27.5H90" stroke="#c8102e" stroke-width="9"/>';
+const tx=[[230,50,"Simple Present"],[30,130,"Past Tense"],[220,150,"Future Tense"],[40,225,"I am / You are"],[230,240,"Verb 2 (V2)"],[130,305,"ABC · Hello!"]].map(a=>`<text x="${a[0]}" y="${a[1]}" font-family="sans-serif" font-weight="bold" font-size="17" fill="#1e5bd8">${a[2]}</text>`).join("");
+const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="380" height="330" opacity=".13"><g transform="translate(20,20)"><rect width="90" height="55" fill="#012169"/>${f}</g><g transform="translate(250,255) scale(.7)"><rect width="90" height="55" fill="#012169"/>${f}</g>${tx}</svg>`;
+document.body.style.backgroundImage=`url("data:image/svg+xml,${encodeURIComponent(svg)}")`;document.body.style.backgroundAttachment="fixed"})();
+// ---------- INTEGRASI GOOGLE SHEETS (via Google Apps Script)
+const gasOn=()=>/^https:\/\/script\.google\.com\//.test(GAS_URL);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const hashStr=s=>{let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return(h>>>0).toString(36)};
+const setSync=h=>{const e=$("#sync");if(e)e.innerHTML=h};
+async function kirim(data){
+ const ac=new AbortController(),tm=setTimeout(()=>ac.abort(),30000);
+ try{
+  const r=await fetch(GAS_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data),signal:ac.signal});
+  if(!r.ok)throw new Error("HTTP "+r.status);
+  return await r.json()
+ }catch(e){throw e.name=="AbortError"?new Error("waktu habis"):e}
+ finally{clearTimeout(tm)}
+}
+async function doSend(){
+ if(!gasOn()){setSync("ℹ️ Mode offline: hasil belum dikirim ke Google Sheets (GAS_URL belum diisi).");return}
+ setSync("⏳ Mengirim hasil ke Google Sheets...");
+ try{
+  const r=await kirim(S.pending);
+  if(!r||!r.ok)throw new Error(r&&r.error||"respons tidak valid");
+  setSync("☁️ Hasil berhasil tersimpan di Google Sheets guru.");
+  if(r.needSoal){try{localStorage.removeItem("mpi_soal_ver")}catch(e){}syncSoal()}
+ }catch(e){
+  setSync(`⚠️ Gagal mengirim hasil (${esc(e.message)}).<br><button class="btn y" onclick="doSend()">🔄 Kirim Ulang</button>`)
+ }
+}
+function kirimHasil(sc,pr){
+ const AB="ABC",ben=T.filter((t,i)=>TA[i]==t.r).length;
+ const jb=T.map((t,i)=>{const k=TA[i],ok=k==t.r;return`[L${t.l}] `+(k==null?"(tidak dijawab)":AB[k]+". "+t.o[k])+(ok?" ✔":" ✘ (kunci: "+AB[t.r]+". "+t.o[t.r]+")")});
+ S.pending={action:"simpanHasil",sid:"s"+Date.now().toString(36)+Math.random().toString(36).slice(2,8),nama:S.n,kelas:S.k,benar:ben,salah:T.length-ben,nilai:sc,predikat:pr,skorBermain:S.play?S.play.sc:"",akurasiBermain:S.play?S.play.ac:"",jawabanBerlatih:jb,jawabanBermain:S.play&&S.play.log?S.play.log:[]};
+ doSend()
+}
+function buildSoal(){
+ const L="ABCD",out=[];
+ P.forEach((p,i)=>{let tipe,pil,kunci;
+  if(p.t=="match"){tipe="Menjodohkan";pil=p.p.map(x=>x[0]+" ↔ "+x[1]);kunci="Semua pasangan pada kolom Pilihan adalah jawaban benar"}
+  else if(p.t=="order"){tipe="Mengurutkan";pil=p.i.map((x,j)=>(j+1)+". "+x);kunci="Urutan benar: "+p.i.map((x,j)=>j+1).join(" → ")+" (sesuai nomor pada Pilihan)"}
+  else if(p.t=="cls"){tipe="Mengelompokkan";pil=p.i.map(x=>x[0]+" → "+p.z[x[1]]);kunci="Kotak tujuan: "+p.z.join(" | ")+" (lihat tanda → pada Pilihan)"}
+  else if(p.t=="mc"){tipe="Pilihan Ganda";pil=p.o.map((x,j)=>L[j]+". "+x);kunci=L[p.r]+". "+p.o[p.r]}
+  else{tipe="Pilihan Ganda Kompleks";pil=p.o.map((x,j)=>L[j]+". "+x);kunci=p.r.map(j=>L[j]+". "+p.o[j]).join(" | ")}
+  out.push({no:i+1,menu:"Bermain",tipe,level:"-",stimulus:p.s,pertanyaan:p.q,pilihan:pil,kunci,poin:"10 (5 jika ada kesalahan)"})});
+ T.forEach((t,i)=>out.push({no:i+1,menu:"Berlatih",tipe:"Pilihan Ganda",level:["","Level 1 - Dasar","Level 2 - Sedang","Level 3 - HOTS"][t.l],stimulus:t.s,pertanyaan:t.q,pilihan:t.o.map((x,j)=>L[j]+". "+x),kunci:L[t.r]+". "+t.o[t.r],poin:[0,8,10,12][t.l]}));
+ return out
+}
+async function syncSoal(){
+ if(!gasOn())return;
+ const soal=buildSoal(),ver=hashStr(JSON.stringify(soal));
+ try{if(localStorage.getItem("mpi_soal_ver")==ver)return}catch(e){}
+ try{
+  const r=await kirim({action:"syncSoal",version:ver,soal});
+  if(r&&r.ok){try{localStorage.setItem("mpi_soal_ver",ver)}catch(e){}}
+ }catch(e){console.warn("Sinkronisasi Data Soal gagal:",e)}
+}
+
+splash();syncSoal();
+</script></body></html>
